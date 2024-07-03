@@ -58,6 +58,9 @@ void Simpletron::dumpMemory() const
             if (i == 0)
                 std::cout << " ";
             std::cout << std::noshowpos << i << " ";
+            /*if (i < 100 && i != 0)
+                std::cout << " "; */
+            // std::cout << std::setfill(' ') << std::setw(3) << std::noshowpos << i << " ";
         }
         std::cout << std::showpos << std::setfill('0') << std::setw(5) << std::internal << memory[i] << " ";
         if ((i + 1) % 10 == 0)
@@ -82,14 +85,14 @@ void Simpletron::reset()
 
 bool Simpletron::opRead()
 {
-    std::cout << "? ";
+    std::cout << "> ";
     std::cin >> memory[reg.operand];
     return true;
 }
 
 bool Simpletron::opWrite()
 {
-    std::cout << std::setw(5) << std::setfill('0') << std::showpos << std::internal << memory[reg.operand] << std::endl;
+    std::cout << "Output: " << std::setw(5) << std::setfill('0') << std::showpos << std::internal << memory[reg.operand] << std::endl;
     return true;
 }
 
@@ -136,21 +139,21 @@ bool Simpletron::opMultiply()
 
 bool Simpletron::opBranch()
 {
-    reg.counter = reg.operand;
+    reg.counter = reg.operand - 1;
     return true;
 }
 
 bool Simpletron::opBranchNeg()
 {
     if (reg.accumulator < 0)
-        reg.counter = reg.operand;
+        reg.counter = reg.operand - 1;
     return true;
 }
 
 bool Simpletron::opBranchZero()
 {
     if (reg.accumulator == 0)
-        reg.counter = reg.operand;
+        reg.counter = reg.operand - 1;
     return true;
 }
 
@@ -179,7 +182,7 @@ void Simpletron::execute()
     }
 }
 
-void Simpletron::load(const std::vector<short> program)
+void Simpletron::load(const std::vector<short>& program)
 {
     for (auto i = 0; i < (int)program.size(); i++)
     {
@@ -187,7 +190,7 @@ void Simpletron::load(const std::vector<short> program)
     }
 }
 
-void Simpletron::run(const std::vector<short> program)
+void Simpletron::run(const std::vector<short>& program)
 {
     std::cout << "Loading program into memory..." << std::endl;
     load(program);

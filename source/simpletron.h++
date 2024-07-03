@@ -48,7 +48,7 @@ private:
     bool opBranchZero();
     bool opHalt();
 
-    void load(const std::vector<short> program);
+    void load(const std::vector<short>& program);
     void reset();
     void execute();
     void dumpRegisters() const;
@@ -73,7 +73,7 @@ public:
     };
     bool parse(const std::vector<short> program);
     void dump() const;
-    void run(const std::vector<short> program);
+    void run(const std::vector<short>& program);
     std::vector<short> *readProgram();
     std::vector<short> *readFromFile(std::string fileName);
 };
